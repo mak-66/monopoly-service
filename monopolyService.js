@@ -23,6 +23,9 @@
  *
  * @author: kvlinden
  * @date: Summer, 2020
+ * 
+ * @modified: mak66
+ * @date: Fall, 2024
  */
 
 // Set up the database connection.
@@ -36,7 +39,7 @@ const db = pgp({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   ssl: {rejectUnauthorized: false,},
-});
+}); // Added ssl: {rejectUnauthorized: false,}
 
 // Configure the server and its routes.
 
