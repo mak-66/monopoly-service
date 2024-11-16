@@ -56,6 +56,8 @@ router.get('/players/:id', readPlayer);
 router.put('/players/:id', updatePlayer);
 router.post('/players', createPlayer);
 router.delete('/players/:id', deletePlayer);
+//NEW JOIN QUERY
+router.get('/gamesOf/:id', readGamesOfPlayer); //Gets all of the games that a player is part of
 
 app.use(router);
 app.listen(port, () => console.log(`Listening on port ${port}`));
@@ -116,6 +118,17 @@ function createPlayer(req, res, next) {
 
 function deletePlayer(req, res, next) {
   db.oneOrNone('DELETE FROM Player WHERE id=${id} RETURNING id', req.params)
+    .then((data) => {
+      returnDataOr404(res, data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+// NEW FOR HW3
+function readGamesOfPlayer(req, res, next) {
+  db.many('SELECT * FROM Game, PlayerGame, Player WHERE Game.id=gameid AND Player.id=playerid AND player.id=${id}', req.params)
     .then((data) => {
       returnDataOr404(res, data);
     })
